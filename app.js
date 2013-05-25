@@ -1,5 +1,5 @@
 var PORT = 12345;
-var HOST = '0.0.0.0';
+var HOST = '192.168.1.100';
 var dgram = require('dgram');
 var app = require('http').createServer(handler)
   , io = require('socket.io').listen(app)
