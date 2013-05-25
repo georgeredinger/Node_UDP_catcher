@@ -31,7 +31,7 @@ function handler (req, res) {
 io.sockets.on('connection', function (socket) {
     server.on('message', function (message, remote) {
         //  console.log(remote.address + ':' + remote.port +' - ' + message);
-          var accel =  {x:0,y:0};
+          var accel =  {x:0,y:0,z:0};
           accel = JSON.parse(message);
           console.log(accel);
 

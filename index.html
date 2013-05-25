@@ -7,13 +7,13 @@
 <script>
   var socket = io.connect('http://192.168.1.100');
     socket.on("accel", function (data) {
-        $("#xy").text(data.x+","+data.y);
+        $("#xyz").text(data.x+","+data.y+","+data.z);
        // console.log(data);
     });
 </script>
 </head>
 <body>
 <H1> UDP sensor </H1>
-<div id="xy"> Waiting for data... </div>
+<div id="xyz"> Waiting for data... </div>
 </body>
 </html>
