@@ -4,16 +4,45 @@
 <title>UDP Sensor</title>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
+<script src="/smoothie.js"></script>
+
 <script>
   var socket = io.connect('http://192.168.1.100');
     socket.on("accel", function (data) {
         $("#xyz").text(data.x+","+data.y+","+data.z);
-       // console.log(data);
+	      xchart.append(new Date().getTime(), data.x);
+	      ychart.append(new Date().getTime(), data.y);
+	      zchart.append(new Date().getTime(), data.z);
     });
 </script>
+
+<script type="text/javascript">
+var xchart = new TimeSeries();
+var ychart = new TimeSeries();
+var zchart = new TimeSeries();
+function createTimeline() {
+	var chart = new SmoothieChart();
+	chart.addTimeSeries(xchart, { strokeStyle: 'rgba(255,0 , 0, 1)', fillStyle: 'rgba(0, 0, 0, 0.2)', lineWidth: 4 });
+	chart.addTimeSeries(ychart, { strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 0, 0, 0.2)', lineWidth: 4 });
+	chart.addTimeSeries(zchart, { strokeStyle: 'rgba(0, 0, 255, 1)', fillStyle: 'rgba(0, 0, 0, 0.2)', lineWidth: 4 });
+	chart.streamTo(document.getElementById("chart"), 500);
+}
+</script>
+
 </head>
-<body>
+<body onload="createTimeline()">
+
 <H1> UDP sensor </H1>
 <div id="xyz"> Waiting for data... </div>
+<p> 
+Arduino Uno;WiFly Shield;ADXL345 mems accelerometer; Nodejs
+<br>
+Arduino -> WiFly -> UDP -> Nodejs -> Websocket -> Web Browser -> Smoothie.js -> fun
+</p>
+
+<span style="color:red"> X </span>
+<span style="color:green"> Y </span>
+<span style="color:blue"> Z </span>
+<canvas id="chart" width="900" height="400"></canvas>
 </body>
 </html>
